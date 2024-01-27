@@ -48,6 +48,7 @@ object ColorClasses {
             Color(0, 150, 0),
             Color(0, 100, 0),
             Color(0, 50, 0),
+            Color(163, 255, 140),
             Color(50, 255, 0),
             Color(100, 255, 0),
             Color(150, 255, 0),
@@ -66,6 +67,7 @@ object ColorClasses {
             Color(0, 50, 255),
         ),
         ColorName.ORANGE to listOf(
+            Color(255, 132, 56),
             Color(255, 106, 10),
             Color(255, 117, 25),
             Color(255, 132, 50),
@@ -75,7 +77,9 @@ object ColorClasses {
             Color(255, 50, 255),
             Color(255, 100, 255),
             Color(255, 150, 255),
+            Color(242, 125, 172),
             Color(246, 38, 129),
+            Color(160, 25, 86),
         ),
         ColorName.YELLOW to listOf(
             Color(255, 255, 0),
@@ -92,7 +96,9 @@ object ColorClasses {
         ),
         ColorName.PURPLE to listOf(
             Color(160, 32, 240),
+            Color(139, 30, 216),
             Color(93, 19, 142),
+            Color(50, 10, 76),
         ),
         ColorName.BEIGE to listOf(
             Color(245, 245, 220),

@@ -17,9 +17,7 @@ import org.apache.commons.imaging.ImageFormats
 import org.apache.commons.imaging.Imaging
 
 interface VariationProducer {
-    fun createVariations(): List<Color> {
-        TODO()
-    }
+    fun createVariations(): List<Color>
 }
 
 fun main() {
@@ -27,7 +25,7 @@ fun main() {
         ColorName.WHITE to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.WHITE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -35,7 +33,7 @@ fun main() {
         ColorName.BLACK to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.BLACK]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -43,7 +41,7 @@ fun main() {
         ColorName.GRAY to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.GRAY]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -51,7 +49,7 @@ fun main() {
         ColorName.RED to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.RED]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -59,7 +57,7 @@ fun main() {
         ColorName.GREEN to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.GREEN]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -67,7 +65,7 @@ fun main() {
         ColorName.BLUE to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.BLUE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -75,7 +73,7 @@ fun main() {
         ColorName.ORANGE to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.ORANGE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -83,7 +81,7 @@ fun main() {
         ColorName.PINK to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.PINK]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -91,7 +89,7 @@ fun main() {
         ColorName.YELLOW to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.YELLOW]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -99,7 +97,7 @@ fun main() {
         ColorName.BROWN to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.BROWN]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -107,7 +105,7 @@ fun main() {
         ColorName.PURPLE to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.PURPLE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -115,7 +113,7 @@ fun main() {
         ColorName.BEIGE to object : VariationProducer {
             override fun createVariations() = ColorClasses.colorRgbByName[ColorName.BEIGE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 50)
+                    generateCieLabVariations(it, 100)
                 }.flatMap {
                     generateRgbVariations(it, 30)
                 }.distinct().toList()
@@ -213,6 +211,7 @@ fun generateImageSample(
             )
         }
     }
+
     Imaging.writeImage(
         image,
         output.toFile(),

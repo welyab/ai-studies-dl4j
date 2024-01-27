@@ -3,6 +3,8 @@ package dev.welyab.ai.classification.colornames
 import dev.welyab.ai.classification.colornames.helps.ColorSample
 import java.awt.Color
 import java.nio.file.Paths
+import kotlin.random.Random
+import kotlin.random.nextInt
 import org.datavec.api.records.metadata.RecordMetaData
 import org.datavec.api.records.reader.impl.csv.CSVRecordReader
 import org.datavec.api.records.reader.impl.transform.TransformProcessRecordReader
@@ -198,7 +200,26 @@ fun main() {
             pair.second,
             ColorName.values()[network.predict(rgb)[0]].name,
             Paths.get(System.getProperty("user.dir"))
-                .resolve("src/main/resources/dev/welyab/ai/classification/colornames/predicted/${pair.first}_${index + 1}_.png")
+                .resolve("src/main/resources/dev/welyab/ai/classification/colornames/predicted/${pair.first}_${index + 1}.png")
+        )
+    }
+
+    repeat(10) { index ->
+        val color = Color(
+            Random.nextInt(256),
+            Random.nextInt(256),
+            Random.nextInt(256)
+        )
+        val rgb = NDArray(1, 3)
+        rgb.putScalar(0, 0, color.red.toDouble())
+        rgb.putScalar(0, 1, color.green.toDouble())
+        rgb.putScalar(0, 2, color.blue.toDouble())
+        normalizer.transform(rgb)
+        ColorSample.generate(
+            color,
+            ColorName.values()[network.predict(rgb)[0]].name,
+            Paths.get(System.getProperty("user.dir"))
+                .resolve("src/main/resources/dev/welyab/ai/classification/colornames/predicted/random_${index + 1}.png")
         )
     }
 }
