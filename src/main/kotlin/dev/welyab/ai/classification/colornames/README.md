@@ -30,8 +30,29 @@ red,green,blue,name
 128,226,252,blue
 ```
 
-Sample color RGB color samples for red:
+Sample RGB colors for red:
 
 <p align="center">
   <img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/sample_images/red.png">
 </p>
+
+## Predicted color names
+
+<table>
+<tr>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/BLUE_24.png"></td>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/RED_13.png"></td>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/BLACK_11.png"></td>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/YELLOW_29.png"></td>
+</tr>
+<tr>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/GREEN_6.png"></td>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/PINK_34.png"></td>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/PURPLE_43.png"></td>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/WHITE_3.png"></td>
+</tr>
+</table>
+
+### Extras
+
+There are a small HTTP API implemented to classify colors over HTTP requests. It is used in personal project to indetify color name with RGB sensor and Arduino board. More in this blog post (in portuguese): 
