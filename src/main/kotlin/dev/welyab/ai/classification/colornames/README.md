@@ -46,9 +46,9 @@ Sample RGB colors for red:
 <td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/YELLOW_29.png"></td>
 </tr>
 <tr>
-<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/GREEN_6.png"></td>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/GREEN_19.png"></td>
 <td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/PINK_34.png"></td>
-<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/PURPLE_43.png"></td>
+<td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/PURPLE_41.png"></td>
 <td><img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/predicted/WHITE_3.png"></td>
 </tr>
 </table>
