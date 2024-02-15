@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.22"
     application
 }
 
@@ -13,6 +13,9 @@ repositories {
 }
 
 dependencies {
+    implementation("io.javalin:javalin:6.0.0")
+    implementation("org.slf4j:slf4j-simple:2.0.10")
+
     implementation("org.deeplearning4j:deeplearning4j-ui:1.0.0-M2.1")
     implementation("org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1")
     implementation("org.nd4j:nd4j-native-platform:1.0.0-M2.1")

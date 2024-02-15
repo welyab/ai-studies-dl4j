@@ -3,6 +3,18 @@ package dev.welyab.ai.classification.colornames.helps
 import com.google.common.collect.ComparisonChain
 import dev.welyab.ai.classification.colornames.ColorClasses
 import dev.welyab.ai.classification.colornames.ColorName
+import dev.welyab.ai.classification.colornames.ColorName.BEIGE
+import dev.welyab.ai.classification.colornames.ColorName.BLACK
+import dev.welyab.ai.classification.colornames.ColorName.BLUE
+import dev.welyab.ai.classification.colornames.ColorName.BROWN
+import dev.welyab.ai.classification.colornames.ColorName.GRAY
+import dev.welyab.ai.classification.colornames.ColorName.GREEN
+import dev.welyab.ai.classification.colornames.ColorName.ORANGE
+import dev.welyab.ai.classification.colornames.ColorName.PINK
+import dev.welyab.ai.classification.colornames.ColorName.PURPLE
+import dev.welyab.ai.classification.colornames.ColorName.RED
+import dev.welyab.ai.classification.colornames.ColorName.WHITE
+import dev.welyab.ai.classification.colornames.ColorName.YELLOW
 import dev.welyab.ai.classification.colornames.helps.ColorVariationGenerator.generateCieLabVariations
 import dev.welyab.ai.classification.colornames.helps.ColorVariationGenerator.generateRgbVariations
 import java.awt.Color
@@ -22,100 +34,100 @@ interface VariationProducer {
 
 fun main() {
     val colorVariationGenerators = mapOf(
-        ColorName.WHITE to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.WHITE]!!
+        WHITE to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[WHITE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 20)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 10)
                 }.distinct().toList()
         },
-        ColorName.BLACK to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.BLACK]!!
+        BLACK to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[BLACK]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 20)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 10)
                 }.distinct().toList()
         },
-        ColorName.GRAY to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.GRAY]!!
+        GRAY to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[GRAY]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 3)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 1)
                 }.distinct().toList()
         },
-        ColorName.RED to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.RED]!!
+        RED to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[RED]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 15)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 10)
                 }.distinct().toList()
         },
-        ColorName.GREEN to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.GREEN]!!
+        GREEN to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[GREEN]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 20)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 10)
                 }.distinct().toList()
         },
-        ColorName.BLUE to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.BLUE]!!
+        BLUE to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[BLUE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 20)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 10)
                 }.distinct().toList()
         },
-        ColorName.ORANGE to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.ORANGE]!!
+        ORANGE to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[ORANGE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 6)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 1)
                 }.distinct().toList()
         },
-        ColorName.PINK to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.PINK]!!
+        PINK to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[PINK]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 6)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 4)
                 }.distinct().toList()
         },
-        ColorName.YELLOW to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.YELLOW]!!
+        YELLOW to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[YELLOW]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 5)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 5)
                 }.distinct().toList()
         },
-        ColorName.BROWN to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.BROWN]!!
+        BROWN to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[BROWN]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 4)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 5)
                 }.distinct().toList()
         },
-        ColorName.PURPLE to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.PURPLE]!!
+        PURPLE to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[PURPLE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 20)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 10)
                 }.distinct().toList()
         },
-        ColorName.BEIGE to object : VariationProducer {
-            override fun createVariations() = ColorClasses.colorRgbByName[ColorName.BEIGE]!!
+        BEIGE to object : VariationProducer {
+            override fun createVariations() = ColorClasses.colorRgbByName[BEIGE]!!
                 .flatMap {
-                    generateCieLabVariations(it, 100)
+                    generateCieLabVariations(it, 20)
                 }.flatMap {
-                    generateRgbVariations(it, 30)
+                    generateRgbVariations(it, 1)
                 }.distinct().toList()
         }
     )

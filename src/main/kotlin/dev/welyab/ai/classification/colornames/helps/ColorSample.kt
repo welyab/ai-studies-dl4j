@@ -5,8 +5,8 @@ import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
-import javax.imageio.ImageIO
+import org.apache.commons.imaging.ImageFormats
+import org.apache.commons.imaging.Imaging
 
 object ColorSample {
     fun generate(color: Color, name: String, outFile: Path) {
@@ -25,6 +25,11 @@ object ColorSample {
         if (Files.notExists(outFile.parent)) {
             Files.createDirectories(outFile.parent)
         }
-        ImageIO.write(image, "png", outFile.toFile())
+
+        Imaging.writeImage(
+            image,
+            outFile.toFile(),
+            ImageFormats.PNG
+        )
     }
 }

@@ -1,10 +1,11 @@
 package dev.welyab.ai.classification.colornames
 
+import dev.welyab.ai.classification.colornames.ColorName.*
 import dev.welyab.ai.classification.colornames.helps.ColorSample
 import java.awt.Color
+import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.random.Random
-import kotlin.random.nextInt
 import org.datavec.api.records.metadata.RecordMetaData
 import org.datavec.api.records.reader.impl.csv.CSVRecordReader
 import org.datavec.api.records.reader.impl.transform.TransformProcessRecordReader
@@ -18,18 +19,125 @@ import org.deeplearning4j.nn.conf.layers.DenseLayer
 import org.deeplearning4j.nn.conf.layers.OutputLayer
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.weights.WeightInit
+import org.deeplearning4j.util.ModelSerializer
 import org.nd4j.evaluation.classification.Evaluation
 import org.nd4j.evaluation.meta.Prediction
 import org.nd4j.linalg.activations.Activation
-import org.nd4j.linalg.cpu.nativecpu.NDArray
-import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization
 import org.nd4j.linalg.dataset.api.preprocessor.NormalizerStandardize
+import org.nd4j.linalg.dataset.api.preprocessor.serializer.NormalizerSerializer
+import org.nd4j.linalg.dataset.api.preprocessor.serializer.StandardizeSerializerStrategy
 import org.nd4j.linalg.learning.config.Sgd
 import org.nd4j.linalg.lossfunctions.LossFunctions
 
 class ColorClassification
 
 fun main() {
+    val model = getModel(true)
+
+    listOf(
+        WHITE to Color(255, 255, 255),
+        WHITE to Color(241, 241, 241),
+        WHITE to Color(255, 249, 243),
+        WHITE to Color(248, 249, 249),
+
+        GRAY to Color(207, 207, 207),
+        GRAY to Color(171, 171, 171),
+        GRAY to Color(93, 88, 83),
+        GRAY to Color(53, 53, 53),
+
+        BLACK to Color(16, 16, 15),
+        BLACK to Color(2, 7, 2),
+        BLACK to Color(13, 11, 5),
+        BLACK to Color(8, 4, 0),
+
+        RED to Color(232, 63, 63),
+        RED to Color(234, 28, 28),
+        RED to Color(162, 15, 15),
+        RED to Color(202, 28, 0),
+
+        GREEN to Color(18, 57, 0),
+        GREEN to Color(32, 101, 0),
+        GREEN to Color(81, 255, 0),
+        GREEN to Color(186, 253, 154),
+
+        BLUE to Color(34, 58, 139),
+        BLUE to Color(18, 68, 236),
+        BLUE to Color(147, 232, 255),
+        BLUE to Color(193, 242, 255),
+
+        ORANGE to Color(255, 158, 0),
+        ORANGE to Color(223, 149, 28),
+        ORANGE to Color(248, 159, 13),
+        ORANGE to Color(254, 162, 1),
+
+        YELLOW to Color(247, 220, 111),
+        YELLOW to Color(255, 255, 0),
+        YELLOW to Color(245, 176, 65),
+        YELLOW to Color(183, 149, 11),
+
+        PINK to Color(234, 120, 229),
+        PINK to Color(255, 51, 246),
+        PINK to Color(255, 0, 243),
+        PINK to Color(187, 21, 179),
+
+        BROWN to Color(160, 122, 55),
+        BROWN to Color(114, 74, 5),
+        BROWN to Color(116, 74, 0),
+        BROWN to Color(87, 62, 18),
+
+        PURPLE to Color(172, 118, 184),
+        PURPLE to Color(171, 23, 204),
+        PURPLE to Color(130, 19, 155),
+        PURPLE to Color(79, 0, 96),
+
+        BEIGE to Color(251, 250, 227),
+        BEIGE to Color(243, 241, 213),
+        BEIGE to Color(252, 250, 230),
+        BEIGE to Color(245, 240, 190),
+    ).forEachIndexed { index, pair ->
+        ColorSample.generate(
+            pair.second,
+            model.predict(pair.second).name,
+            Paths.get(System.getProperty("user.dir"))
+                .resolve("src/main/resources/dev/welyab/ai/classification/colornames/predicted/${pair.first}_${index + 1}.png")
+        )
+    }
+
+    repeat(30) { index ->
+        val color = Color(
+            Random.nextInt(256),
+            Random.nextInt(256),
+            Random.nextInt(256)
+        )
+        ColorSample.generate(
+            color,
+            model.predict(color).name,
+            Paths.get(System.getProperty("user.dir"))
+                .resolve("src/main/resources/dev/welyab/ai/classification/colornames/predicted/random_${index + 1}.png")
+        )
+    }
+}
+
+fun getModel(loadModel: Boolean): Model {
+    val networkFileName = "network.dl4j_network"
+    val normalizerFileName = "normalizer.dl4j_normalizer"
+
+    val modelDirPath = Paths.get(System.getProperty("user.dir"))
+        .resolve("src/main/resources/dev/welyab/ai/classification/colornames/model")
+    if (Files.notExists(modelDirPath)) {
+        Files.createDirectories(modelDirPath)
+    }
+
+    val normSerializer = NormalizerSerializer()
+    normSerializer.addStrategy(StandardizeSerializerStrategy())
+
+    if (loadModel) {
+        val network = ModelSerializer.restoreMultiLayerNetwork(modelDirPath.resolve(networkFileName).toFile())
+        val normalizer =
+            normSerializer.restore<NormalizerStandardize>(modelDirPath.resolve(normalizerFileName).toFile())
+        return Model(network, normalizer)
+    }
+
     val csvReader = CSVRecordReader(1, ',')
         .apply {
             initialize(
@@ -59,7 +167,7 @@ fun main() {
         .Builder(schema)
         .transform(StringMapTransform(
             "name",
-            ColorName.values().associate { it.name.lowercase() to it.ordinal.toString() }
+            values().associate { it.name.lowercase() to it.ordinal.toString() }
         ))
         .build()
 
@@ -79,10 +187,15 @@ fun main() {
         RecordMetaData::class.java
     )
 
-    val normalizer: DataNormalization = NormalizerStandardize()
+    val normalizer = NormalizerStandardize()
     normalizer.fit(trainingData)
     normalizer.transform(trainingData)
     normalizer.transform(testData)
+
+    normSerializer.write(
+        normalizer,
+        modelDirPath.resolve(normalizerFileName).toFile()
+    )
 
     val numInputs = 3
     val outputNum = numClasses
@@ -130,96 +243,7 @@ fun main() {
         )
     }
 
-    listOf(
-        "WHITE" to Color(255, 255, 255),
-        "WHITE" to Color(241, 241, 241),
-        "WHITE" to Color(255, 249, 243),
-        "WHITE" to Color(248, 249, 249),
+    ModelSerializer.writeModel(network, modelDirPath.resolve(networkFileName).toFile(), true)
 
-        "GRAY" to Color(207, 207, 207),
-        "GRAY" to Color(171, 171, 171),
-        "GRAY" to Color(93, 88, 83),
-        "GRAY" to Color(53, 53, 53),
-
-        "BLACK" to Color(16, 16, 15),
-        "BLACK" to Color(2, 7, 2),
-        "BLACK" to Color(13, 11, 5),
-        "BLACK" to Color(8, 4, 0),
-
-        "RED" to Color(234, 28, 28),
-        "RED" to Color(202, 28, 0),
-        "RED" to Color(232, 63, 63),
-        "RED" to Color(162, 15, 15),
-
-        "GREEN" to Color(81, 255, 0),
-        "GREEN" to Color(32, 101, 0),
-        "GREEN" to Color(18, 57, 0),
-        "GREEN" to Color(186, 253, 154),
-
-        "BLUE" to Color(18, 68, 236),
-        "BLUE" to Color(34, 58, 139),
-        "BLUE" to Color(147, 232, 255),
-        "BLUE" to Color(193, 242, 255),
-
-        "ORANGE" to Color(255, 158, 0),
-        "ORANGE" to Color(223, 149, 28),
-        "ORANGE" to Color(248, 159, 13),
-        "ORANGE" to Color(254, 162, 1),
-
-        "YELLOW" to Color(255, 255, 0),
-        "YELLOW" to Color(245, 176, 65),
-        "YELLOW" to Color(247, 220, 111),
-        "YELLOW" to Color(183, 149, 11),
-
-        "PINK" to Color(255, 51, 246),
-        "PINK" to Color(234, 120, 229),
-        "PINK" to Color(187, 21, 179),
-        "PINK" to Color(255, 0, 243),
-
-        "BROWN" to Color(116, 74, 0),
-        "BROWN" to Color(160, 122, 55),
-        "BROWN" to Color(114, 74, 5),
-        "BROWN" to Color(87, 62, 18),
-
-        "PURPLE" to Color(171, 23, 204),
-        "PURPLE" to Color(130, 19, 155),
-        "PURPLE" to Color(172, 118, 184),
-        "PURPLE" to Color(79, 0, 96),
-
-        "BEIGE" to Color(251, 250, 227),
-        "BEIGE" to Color(243, 241, 213),
-        "BEIGE" to Color(252, 250, 230),
-        "BEIGE" to Color(245, 240, 190),
-    ).forEachIndexed { index, pair ->
-        val rgb = NDArray(1, 3)
-        rgb.putScalar(0, 0, pair.second.red.toDouble())
-        rgb.putScalar(0, 1, pair.second.green.toDouble())
-        rgb.putScalar(0, 2, pair.second.blue.toDouble())
-        normalizer.transform(rgb)
-        ColorSample.generate(
-            pair.second,
-            ColorName.values()[network.predict(rgb)[0]].name,
-            Paths.get(System.getProperty("user.dir"))
-                .resolve("src/main/resources/dev/welyab/ai/classification/colornames/predicted/${pair.first}_${index + 1}.png")
-        )
-    }
-
-    repeat(10) { index ->
-        val color = Color(
-            Random.nextInt(256),
-            Random.nextInt(256),
-            Random.nextInt(256)
-        )
-        val rgb = NDArray(1, 3)
-        rgb.putScalar(0, 0, color.red.toDouble())
-        rgb.putScalar(0, 1, color.green.toDouble())
-        rgb.putScalar(0, 2, color.blue.toDouble())
-        normalizer.transform(rgb)
-        ColorSample.generate(
-            color,
-            ColorName.values()[network.predict(rgb)[0]].name,
-            Paths.get(System.getProperty("user.dir"))
-                .resolve("src/main/resources/dev/welyab/ai/classification/colornames/predicted/random_${index + 1}.png")
-        )
-    }
+    return Model(network, normalizer)
 }

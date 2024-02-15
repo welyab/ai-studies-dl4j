@@ -33,10 +33,12 @@ red,green,blue,name
 Sample RGB colors for red:
 
 <p align="center">
-  <img src="./../../../../../../resources/dev/welyab/ai/classification/colornames/sample_images/red.png">
+  <img style="max-width:500px;width:100%" src="./../../../../../../resources/dev/welyab/ai/classification/colornames/sample_images/red.png">
 </p>
 
 ## Predicted color names
+
+Some examples:
 
 <table>
 <tr>
@@ -55,4 +57,12 @@ Sample RGB colors for red:
 
 ### Extras
 
-There are a small HTTP API implemented to classify colors over HTTP requests. It is used in personal project to indetify color name with RGB sensor and Arduino board. More in this blog post (in portuguese): 
+There are a small API implemented to classify colors over HTTP requests. It is used in personal project to identify color name with RGB sensor and Arduino board.
+
+Run the web server class: [ColorClassifierWebApplication.kt](./../../../../../../kotlin/dev/welyab/ai/classification/colornames/ColorClassifierWebApplication.kt)
+
+Request some color name prediction passing its RGB code:
+
+```bash
+curl http://localhost:8080/color-name?red=255&green=255&blue=0
+```
